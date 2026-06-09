@@ -1,0 +1,8 @@
+JAK WYSLAC PROJEKT NA GITHUB (Windows)
+
+1) Zainstaluj Git (raz): https://git-scm.com/download/win  -> klikaj Next/Install.
+2) Wejdz do tego folderu i kliknij DWA RAZY plik:  WYSLIJ-NA-GITHUB.bat
+3) Gdy otworzy sie przegladarka, zaloguj sie na konto GitHub: backloghero-lang
+4) Poczekaj na napis GOTOWE. Sprawdz: https://github.com/backloghero-lang/bunkhouse-trainer
+
+Repo musi juz istniec (jest). Skrypt nadpisze startowy README pelnym projektem.

@@ -1,0 +1,5 @@
+# Faza 1 — silnik push/fold (Nash + ICM)
+eval7>=0.1.10          # equity engine + parser range'ow PokerStove (dziala na Py3.10+)
+pokerkit>=0.7.4        # ICM cross-check + ewaluator; WYMAGA Python >=3.11
+pytest>=7.0            # smoke testy / walidacja milestone'ow
+numpy>=1.24            # wektoryzacja solvera (macierz equity)
