@@ -6,3 +6,8 @@ venv/
 node_modules/
 dist/
 *.log
+
+# surowe pliki obrazow (wersje zoptymalizowane: website/img/*.jpg)
+website/img/ChatGPT Image*.png
+website/img/_WRZUC-TU-OBRAZY.txt
+website/img/
