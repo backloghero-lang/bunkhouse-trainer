@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--n0:#03070f;--n1:#0a1426;--n2:#070f1e;--gold:#d8b65a;--glt:#f3dd97;--gdk:#a07830;--bone:#ece7d2;--mut:#7d8ca6;--shove:#74c244;--call:#d99a3a;--felt:#1a6149;--line:rgba(216,182,90,.18);--sans:'Inter',system-ui,Arial,sans-serif;--serif:'Cinzel',Georgia,serif}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;overflow-x:hidden}
 body{font-family:var(--sans);color:var(--bone);background:#04120c;line-height:1.6;overflow-x:hidden;background-image:radial-gradient(120% 60% at 50% -10%,rgba(40,130,85,.20),transparent 55%),linear-gradient(180deg,#03100a,#05160e 35%,#04130d 70%,#08231a)}
 a{color:inherit;text-decoration:none}.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 .gold{color:var(--glt)}
@@ -66,7 +66,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .presets button{background:linear-gradient(160deg,rgba(16,28,52,.9),rgba(7,15,30,.95));box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
 .presets button.on{box-shadow:0 0 18px rgba(216,182,90,.18),inset 0 1px 0 rgba(255,255,255,.06)}
 .hero{padding-top:64px}
-@media(max-width:980px){.hero{grid-template-columns:1fr}.g3{grid-template-columns:1fr}.scen{grid-template-columns:1fr 1fr 1fr}.stats{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr}.tabs{display:none}}
+@media(max-width:980px){.hero{grid-template-columns:1fr}.g3{grid-template-columns:1fr}.scen{grid-template-columns:1fr 1fr 1fr}.stats{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr}.tabs{display:none}.feats{flex-wrap:wrap;gap:14px}.feat{max-width:none;flex:1 1 140px}.g3>*{min-width:0}.stats>*{min-width:0}.ctrl{min-width:0}.panel{padding:16px}}
 .gdot,.gglow,.gspot{position:fixed;inset:0;pointer-events:none;z-index:0}
 .gdot{background-image:radial-gradient(rgba(216,182,90,.14) 1.4px,transparent 1.6px);background-size:30px 30px}
 .gglow{background-image:radial-gradient(rgba(243,221,151,.8) 1.5px,transparent 1.8px);background-size:30px 30px;-webkit-mask-image:radial-gradient(190px at var(--mx,-300px) var(--my,-300px),#000 0%,transparent 72%);mask-image:radial-gradient(190px at var(--mx,-300px) var(--my,-300px),#000 0%,transparent 72%)}
