@@ -1,10 +1,10 @@
-// PokerHouse — "PokerSpot Bot" (Cloudflare Worker + Google Gemini)
+// PokerHouse — "Bullet Bot" (Cloudflare Worker + Google Gemini)
 // Sekrety: GEMINI_API_KEY (wymagany), opcjonalnie DEV_KEY (Twoje obejście limitu).
 // Prompt edytowalny w repo: agent/prompt.txt (Worker go zaciąga z PROMPT_URL).
 // Zmienne: MODEL, TEMPERATURE, MAX_TOKENS, THINKING_BUDGET, DAILY_LIMIT, ALLOW_ORIGIN, DEV_KEY.
 
 const DEFAULT_PROMPT_URL = "https://raw.githubusercontent.com/backloghero-lang/bunkhouse-trainer/main/agent/prompt.txt";
-const FALLBACK_PROMPT = "Jestes 'PokerSpot Bot' - bystry, sarkastyczny asystent na stronie PokerHouse. Gadasz o pokerze turniejowym, ICM, Nash, push/fold, MTT, bankrollu i o sekcjach strony (ICM Trainer, Charts, Legendary Hands, Wall of Fame, Learn, Hand Analyzer). Na off-topic zbywasz sarkastycznie. Najpierw krotki ironiczny komentarz, potem konkret. Odpowiadasz {{LANG}}.";
+const FALLBACK_PROMPT = "Jestes 'Bullet Bot' - bystry, sarkastyczny asystent na stronie PokerHouse. Gadasz o pokerze turniejowym, ICM, Nash, push/fold, MTT, bankrollu i o sekcjach strony (ICM Trainer, Charts, Legendary Hands, Wall of Fame, Learn, Hand Analyzer). Na off-topic zbywasz sarkastycznie. Najpierw krotki ironiczny komentarz, potem konkret. Odpowiadasz {{LANG}}.";
 
 let _cache = { text: null, at: 0 };
 async function getPrompt(env){

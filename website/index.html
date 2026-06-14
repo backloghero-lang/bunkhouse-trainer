@@ -378,7 +378,7 @@ var PB_LIMIT=5;
 try{var _u=new URL(window.location.href);var _k=_u.searchParams.get('pbdev');if(_k!==null){localStorage.setItem('pb_dev',_k);}}catch(e){}
 var PB_DEV='';try{PB_DEV=localStorage.getItem('pb_dev')||'';}catch(e){}
 var BD={
- pl:{name:'PokerSpot Bot',sub:'bystry, sarkastyczny, gada o pokerze 😏',ph:'Napisz coś...',poke:'O nie, kolejny gracz. Masz pytanie o pokera? 😏',
+ pl:{name:'Bullet Bot',sub:'syn koleżanki twojej starej 🂡',ph:'Napisz coś...',poke:'O nie, kolejny gracz. Masz pytanie o pokera? 😏',
   crLabel:'Pytania',limitPh:'Limit demo osiągnięty',toast:'Limit pytań w wersji demo',demo:'To tylko demo 🂡 Agent ma ograniczoną liczbę pytań na dziś. Pełna wersja wkrótce.',
   greet:'No słucham. Czego człowiek nie wie tym razem? Pytaj o ICM, zakresy, legendy albo analizę swoich rąk. 🂡',
   q:{help:'Co to za strona?',icm:'Trener ICM',charts:'Tabele',legend:'Legendy',analyzer:'Analiza rąk'},
@@ -392,10 +392,10 @@ var BD={
   analyzer:'Wklejasz historię (PokerStars/GGPoker), oceniam push/fold. <a href="analyzer.html">Sprawdź rękę →</a>',
   bankroll:'W trenerze masz wykres bankrolla w czasie. Statystyki nie kłamią, w przeciwieństwie do Twoich beatów.',
   poker:['Konkretne pytanie o poker? Wreszcie. Wal.','Poker, ICM, push/fold — to moja działka. Pytaj.'],
-  who:'Jestem PokerSpot Bot. Gadam o pokerze i o tym co na tej stronie. Reszta mnie nie rusza, sorry.',
+  who:'Jestem Bullet Bot. Gadam o pokerze i o tym co na tej stronie. Reszta mnie nie rusza, sorry.',
   thanks:['Spoko. Graj mądrze, foldowanie śmieci to nie wstyd.','Nara. I przestań callować na bańce z marginalnymi.'],
   off:['Serio? To pytasz mnie 😏 Gadam tylko o pokerze i o tej stronie.','Tu rządzi poker. Push czy fold?','Nie mój temat. Zapytaj o <a href="icm-trainer.html">Trenera ICM</a>.','Ja jestem od kart, nie od tego. Wracamy do pokera.']},
- en:{name:'PokerSpot Bot',sub:'sharp, sarcastic, talks poker 😏',ph:'Type something...',poke:'Oh great, another player. Got a poker question? 😏',
+ en:{name:'Bullet Bot',sub:'your mom’s friend’s son 🂡',ph:'Type something...',poke:'Oh great, another player. Got a poker question? 😏',
   crLabel:'Questions',limitPh:'Demo limit reached',toast:'Question limit in this demo',demo:'It’s just a demo 🂡 The agent has limited questions per day. Full version soon.',
   greet:'Well, go on. What don’t you know this time? Ask about ICM, ranges, legends or your own hand analysis. 🂡',
   q:{help:'What’s this?',icm:'ICM Trainer',charts:'Charts',legend:'Legends',analyzer:'Hand analysis'},
@@ -409,10 +409,10 @@ var BD={
   analyzer:'Paste a hand history (PokerStars/GGPoker), I grade the push/fold. <a href="analyzer.html">Check a hand →</a>',
   bankroll:'The trainer has a bankroll chart over time. Numbers don’t lie, unlike your bad-beat stories.',
   poker:['An actual poker question? Finally. Go on.','Poker, ICM, push/fold — that’s my lane. Ask.'],
-  who:'I’m PokerSpot Bot. I talk poker and what’s on this site. Everything else — not my problem.',
+  who:'I’m Bullet Bot. I talk poker and what’s on this site. Everything else — not my problem.',
   thanks:['Sure. Play smart, folding trash isn’t a crime.','Later. And stop calling off marginal on the bubble.'],
   off:['Seriously? You’re asking me that 😏 I only do poker and this site.','Poker rules here. Push or fold?','Not my topic. Ask about the <a href="icm-trainer.html">ICM Trainer</a>.','I’m about the cards, not that. Back to poker.']},
- es:{name:'PokerSpot Bot',sub:'agudo, sarcástico, habla de póker 😏',ph:'Escribe algo...',poke:'Genial, otro jugador. ¿Una pregunta de póker? 😏',
+ es:{name:'Bullet Bot',sub:'el hijo de la amiga de tu vieja 🂡',ph:'Escribe algo...',poke:'Genial, otro jugador. ¿Una pregunta de póker? 😏',
   crLabel:'Preguntas',limitPh:'Límite demo alcanzado',toast:'Límite de preguntas en la demo',demo:'¡Es solo una demo! 🂡 El agente tiene preguntas limitadas por día. Versión completa pronto.',
   greet:'Bueno, dispara. ¿Qué no sabes esta vez? Pregunta por ICM, rangos, leyendas o el análisis de tus manos. 🂡',
   q:{help:'¿Qué es esto?',icm:'Entrenador ICM',charts:'Tablas',legend:'Leyendas',analyzer:'Análisis'},
@@ -426,7 +426,7 @@ var BD={
   analyzer:'Pega un historial (PokerStars/GGPoker) y evalúo el push/fold. <a href="analyzer.html">Revisar →</a>',
   bankroll:'El entrenador tiene un gráfico de bankroll. Los números no mienten, a diferencia de tus bad beats.',
   poker:['¿Una pregunta de póker de verdad? Por fin. Dispara.','Póker, ICM, push/fold — eso es lo mío. Pregunta.'],
-  who:'Soy PokerSpot Bot. Hablo de póker y de lo que hay en esta web. Lo demás, no es mi tema.',
+  who:'Soy Bullet Bot. Hablo de póker y de lo que hay en esta web. Lo demás, no es mi tema.',
   thanks:['Vale. Juega listo, foldear basura no es delito.','Hasta luego. Y deja de pagar marginal en la burbuja.'],
   off:['¿En serio me preguntas eso? 😏 Solo hablo de póker y de esta web.','Aquí manda el póker. ¿Push o fold?','No es mi tema. Pregunta por el <a href="icm-trainer.html">Entrenador ICM</a>.','Lo mío son las cartas, no eso. Volvamos al póker.']}
 };
@@ -444,15 +444,15 @@ function pushC(r,t,h){convo.push({r:r,t:t,h:!!h});saveConvo();}
 function add(content,who,html){var d=document.createElement('div');d.className='pb-m '+(who==='user'?'pb-user':'pb-bot');if(who==='bot'&&html)d.innerHTML=content;else d.textContent=content;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d;}
 function botBubble(){var d=document.createElement('div');d.className='pb-m pb-bot';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d;}
 function typing(){var d=document.createElement('div');d.className='pb-m pb-bot pb-typing';d.innerHTML='<span></span><span></span><span></span>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d;}
-function typeOut(el,text){el.textContent='';var i=0,step=Math.max(1,Math.round(text.length/90));(function go(){el.textContent=text.slice(0,i);i+=step;msgs.scrollTop=msgs.scrollHeight;if(i<text.length)setTimeout(go,22);else el.textContent=text;})();}
-function renderConvo(){msgs.innerHTML='';for(var i=0;i<convo.length;i++)add(convo[i].t,convo[i].r==='u'?'user':'bot',convo[i].h);}
-function credits(){var d=BD[Lg()];var cr=document.getElementById('pbCredits');if(PB_DEV){cr.style.display='none';inp.disabled=false;inp.placeholder=d.ph;return;}cr.style.display='';var rem=remaining();document.getElementById('pbCnt').textContent=rem;document.getElementById('pbCrLabel').textContent=d.crLabel;document.getElementById('pbToast').textContent=d.toast;if(rem<=0){cr.classList.add('lim');inp.disabled=true;inp.placeholder=d.limitPh;}else{cr.classList.remove('lim');inp.disabled=false;inp.placeholder=d.ph;}}
+function pbFmt(t){var e=document.createElement('div');e.textContent=t;var h=e.innerHTML;h=h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');h=h.replace(/(^|[\s(])([a-z][a-z0-9-]*\.html)\b/g,'$1<a href=\"$2\">$2</a>');return h;}function typeOut(el,text){el.textContent='';var i=0,step=Math.max(1,Math.round(text.length/90));(function go(){el.textContent=text.slice(0,i);i+=step;msgs.scrollTop=msgs.scrollHeight;if(i<text.length)setTimeout(go,22);else{el.innerHTML=pbFmt(text);}})();}
+function renderConvo(){msgs.innerHTML='';for(var i=0;i<convo.length;i++){var m=convo[i];if(m.r==='u')add(m.t,'user',false);else add(m.h?m.t:pbFmt(m.t),'bot',true);}}
+function credits(){var d=BD[Lg()];var cr=document.getElementById('pbCredits');if(PB_DEV){cr.style.display='none';inp.disabled=false;inp.placeholder=d.ph;return;}cr.style.display='';var rem=remaining();document.getElementById('pbCnt').textContent=rem;document.getElementById('pbCrLabel').textContent=d.crLabel;document.getElementById('pbToast').textContent=d.toast;if(rem<=0){cr.classList.add('lim');}else{cr.classList.remove('lim');}inp.disabled=false;inp.placeholder=d.ph;}
 function applyLang(){var d=BD[Lg()];document.getElementById('pbName').textContent=d.name;document.getElementById('pbSub').innerHTML=d.sub;var qb=panel.querySelectorAll('.pb-quick button');for(var i=0;i<qb.length;i++){qb[i].textContent=d.q[qb[i].getAttribute('data-t')];}credits();}
 function open(){applyLang();panel.classList.remove('pb-hidden');launch.classList.remove('has');poke.classList.remove('show');if(convo.length){renderConvo();}else if(!msgs.children.length){var tp=typing();setTimeout(function(){tp.remove();add(Rt('greet'),'bot',true);},700);}if(!inp.disabled)inp.focus();}
 function close(){panel.classList.add('pb-hidden');}
 function topicOf(raw){var t=(raw||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\u0142/g,'l');function a(){for(var i=0;i<arguments.length;i++)if(t.indexOf(arguments[i])>=0)return true;return false;}if(a('siema','czesc','hej','elo','witaj','hello','hola',' yo','ey '))return 'hi';if(a('co to','strona','o czym','pomoc','help','funkcj','what','this site',' web','que es','ayuda','about'))return 'help';if(a('icm','trener','trainer','entrenador','zakres','push','fold','range','rango','jam','shove'))return 'icm';if(a('tabel','chart','tabla','stol','mesa','9-max','9 os','pozycj','position','posicion'))return 'charts';if(a('legend','rozdani','mano','leyenda','film','video','moneymaker','ivey','dwan','brunson','rounders'))return 'legend';if(a('slaw','fame','fama','galeria','gallery','strauss','scotty'))return 'fame';if(a('nauk','learn','aprend','szkol','school','escuela','strateg','strategy','gto wizard','upswing','kurs','course'))return 'learn';if(a('analiz','analy','histor','history','ggpoker','pokerstars','blad','mistake','sprawdz','check','revisa'))return 'analyzer';if(a('bankroll','wykres','grafico','kasa','wygran','money','dinero'))return 'bankroll';if(a('poker','blef','bluff','farol','all-in','allin','turniej','tournament','torneo',' aa','flush','river','flop'))return 'poker';if(a('kto','jestes','bot','agent','imie','nazywasz','who are','quien','your name'))return 'who';if(a('dziek','thank','gracias','spoko','nara','bye','adios','git'))return 'thanks';return 'off';}
 function scripted(v){return Rt(topicOf(v));}
-function ask(v){v=(v||'').trim();if(!v)return;if(!PB_DEV&&remaining()<=0){credits();return;}var history=convo.map(function(m){return {role:m.r==='u'?'user':'model',text:m.t};}).slice(-12);add(v,'user');pushC('u',v,false);inp.value='';var tp=typing(),t0=Date.now();function reveal(fn){var w=Math.max(0,700-(Date.now()-t0));setTimeout(function(){tp.remove();fn();},w);}function botDone(){if(!PB_DEV)setUsed(used()+1);credits();}if(PB_API){fetch(PB_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:v,lang:Lg(),history:history,dev:PB_DEV})}).then(function(r){return r.json();}).then(function(d){reveal(function(){if(d&&d.limited){setUsed(PB_LIMIT);credits();add(BD[Lg()].demo,'bot',false);return;}if(d&&d.reply){var el=botBubble();typeOut(el,d.reply);pushC('b',d.reply,false);botDone();}else{var h=scripted(v);add(h,'bot',true);pushC('b',h,true);botDone();}});}).catch(function(){reveal(function(){var h=scripted(v);add(h,'bot',true);pushC('b',h,true);botDone();});});}else{reveal(function(){var h=scripted(v);add(h,'bot',true);pushC('b',h,true);botDone();});}}
+function ask(v){v=(v||'').trim();if(!v)return;if(!PB_DEV&&remaining()<=0){add(BD[Lg()].demo,'bot',false);credits();return;}var history=convo.map(function(m){return {role:m.r==='u'?'user':'model',text:m.t};}).slice(-12);add(v,'user');pushC('u',v,false);inp.value='';var tp=typing(),t0=Date.now();function reveal(fn){var w=Math.max(0,700-(Date.now()-t0));setTimeout(function(){tp.remove();fn();},w);}function botDone(){if(!PB_DEV)setUsed(used()+1);credits();}if(PB_API){fetch(PB_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:v,lang:Lg(),history:history,dev:PB_DEV})}).then(function(r){return r.json();}).then(function(d){reveal(function(){if(d&&d.limited){setUsed(PB_LIMIT);credits();add(BD[Lg()].demo,'bot',false);return;}if(d&&d.reply){var el=botBubble();typeOut(el,d.reply);pushC('b',d.reply,false);botDone();}else{var h=scripted(v);add(h,'bot',true);pushC('b',h,true);botDone();}});}).catch(function(){reveal(function(){var h=scripted(v);add(h,'bot',true);pushC('b',h,true);botDone();});});}else{reveal(function(){var h=scripted(v);add(h,'bot',true);pushC('b',h,true);botDone();});}}
 launch.onclick=function(){panel.classList.contains('pb-hidden')?open():close();};poke.onclick=open;document.getElementById('pbX').onclick=close;
 document.getElementById('pbSend').onclick=function(){ask(inp.value);};inp.addEventListener('keydown',function(e){if(e.key==='Enter')ask(inp.value);});
 document.getElementById('pbInfo').onclick=function(){if(panel.classList.contains('pb-hidden'))open();add(BD[Lg()].demo,'bot',false);};
