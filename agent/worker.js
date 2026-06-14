@@ -34,7 +34,7 @@ export default {
 
     const LIMIT = parseInt(env.DAILY_LIMIT || "5", 10);
     const ip = request.headers.get("CF-Connecting-IP") || "anon";
-    const key = "q:" + ip + ":" + new Date().toISOString().slice(0,10);
+    const key = "q:" + ip + ":" + new Date().toISOString().slice(0,13);
     let used = 0;
     if (!owner && env.PB_KV){
       used = parseInt((await env.PB_KV.get(key)) || "0", 10);
@@ -63,7 +63,7 @@ export default {
     try { reply = data.candidates[0].content.parts.map(function(p){ return p.text||""; }).join("").trim(); } catch(e){}
 
     let remaining = null;
-    if (!owner && env.PB_KV){ await env.PB_KV.put(key, String(used+1), { expirationTtl:90000 }); remaining = Math.max(0, LIMIT-(used+1)); }
+    if (!owner && env.PB_KV){ await env.PB_KV.put(key, String(used+1), { expirationTtl:3700 }); remaining = Math.max(0, LIMIT-(used+1)); }
     return J({ reply: reply, remaining: remaining, owner: owner }, 200, cors);
   }
 }

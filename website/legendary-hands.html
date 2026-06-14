@@ -352,7 +352,7 @@ try{var _u=new URL(window.location.href);var _k=_u.searchParams.get('pbdev');if(
 var PB_DEV='';try{PB_DEV=localStorage.getItem('pb_dev')||'';}catch(e){}
 var BD={
  pl:{name:'Bullet Bot',sub:'syn koleżanki twojej starej 🂡',ph:'Napisz coś...',poke:'O nie, kolejny gracz. Masz pytanie o pokera? 😏',
-  crLabel:'Pytania',limitPh:'Limit demo osiągnięty',toast:'Limit pytań w wersji demo',demo:'To tylko demo 🂡 Agent ma ograniczoną liczbę pytań na dziś. Pełna wersja wkrótce.',
+  crLabel:'Pytania',limitPh:'Limit demo osiągnięty',toast:'Limit pytań w wersji demo',demo:'To tylko demo 🂡 Agent ma ograniczoną liczbę pytań na tę godzinę. Pełna wersja wkrótce.',
   greet:'No słucham. Czego człowiek nie wie tym razem? Pytaj o ICM, zakresy, legendy albo analizę swoich rąk. 🂡',
   q:{help:'Co to za strona?',icm:'Trener ICM',charts:'Tabele',legend:'Legendy',analyzer:'Analiza rąk'},
   hi:['No cześć. Pytanie czy tylko zaglądasz? 😏','Niech zgadnę — bubble, ICM albo asy przegrały? Pytaj.'],
@@ -369,7 +369,7 @@ var BD={
   thanks:['Spoko. Graj mądrze, foldowanie śmieci to nie wstyd.','Nara. I przestań callować na bańce z marginalnymi.'],
   off:['Serio? To pytasz mnie 😏 Gadam tylko o pokerze i o tej stronie.','Tu rządzi poker. Push czy fold?','Nie mój temat. Zapytaj o <a href="icm-trainer.html">Trenera ICM</a>.','Ja jestem od kart, nie od tego. Wracamy do pokera.']},
  en:{name:'Bullet Bot',sub:'your mom’s friend’s son 🂡',ph:'Type something...',poke:'Oh great, another player. Got a poker question? 😏',
-  crLabel:'Questions',limitPh:'Demo limit reached',toast:'Question limit in this demo',demo:'It’s just a demo 🂡 The agent has limited questions per day. Full version soon.',
+  crLabel:'Questions',limitPh:'Demo limit reached',toast:'Question limit in this demo',demo:'It’s just a demo 🂡 The agent has limited questions per hour. Full version soon.',
   greet:'Well, go on. What don’t you know this time? Ask about ICM, ranges, legends or your own hand analysis. 🂡',
   q:{help:'What’s this?',icm:'ICM Trainer',charts:'Charts',legend:'Legends',analyzer:'Hand analysis'},
   hi:['Hey. A question, or just browsing? 😏','Let me guess — bubble, ICM, or aces lost? Ask away.'],
@@ -386,7 +386,7 @@ var BD={
   thanks:['Sure. Play smart, folding trash isn’t a crime.','Later. And stop calling off marginal on the bubble.'],
   off:['Seriously? You’re asking me that 😏 I only do poker and this site.','Poker rules here. Push or fold?','Not my topic. Ask about the <a href="icm-trainer.html">ICM Trainer</a>.','I’m about the cards, not that. Back to poker.']},
  es:{name:'Bullet Bot',sub:'el hijo de la amiga de tu vieja 🂡',ph:'Escribe algo...',poke:'Genial, otro jugador. ¿Una pregunta de póker? 😏',
-  crLabel:'Preguntas',limitPh:'Límite demo alcanzado',toast:'Límite de preguntas en la demo',demo:'¡Es solo una demo! 🂡 El agente tiene preguntas limitadas por día. Versión completa pronto.',
+  crLabel:'Preguntas',limitPh:'Límite demo alcanzado',toast:'Límite de preguntas en la demo',demo:'¡Es solo una demo! 🂡 El agente tiene preguntas limitadas por hora. Versión completa pronto.',
   greet:'Bueno, dispara. ¿Qué no sabes esta vez? Pregunta por ICM, rangos, leyendas o el análisis de tus manos. 🂡',
   q:{help:'¿Qué es esto?',icm:'Entrenador ICM',charts:'Tablas',legend:'Leyendas',analyzer:'Análisis'},
   hi:['Hola. ¿Pregunta o solo mirando? 😏','Déjame adivinar: ¿burbuja, ICM o ases perdedores? Pregunta.'],
@@ -407,7 +407,7 @@ var panel=document.getElementById('pbPanel'),msgs=document.getElementById('pbMsg
 function Lg(){var l=document.documentElement.lang;if(BD[l])return l;try{l=localStorage.getItem('bh_lang');}catch(e){}return BD[l]?l:'en';}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function Rt(t){var r=BD[Lg()][t]||BD.en[t];return Array.isArray(r)?pick(r):r;}
-function dayKey(){return 'pb_used_'+new Date().toISOString().slice(0,10);}
+function dayKey(){return 'pb_used_'+new Date().toISOString().slice(0,13);}
 function used(){try{return parseInt(localStorage.getItem(dayKey())||'0',10)||0;}catch(e){return 0;}}
 function setUsed(n){try{localStorage.setItem(dayKey(),String(n));}catch(e){}}
 function remaining(){return Math.max(0,PB_LIMIT-used());}
