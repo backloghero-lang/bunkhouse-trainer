@@ -29,3 +29,14 @@ Bezpieczny backend czatu. **Żaden klucz nie jest w repo** — siedzi jako *secr
 
 ## Koszt / limit
 - Gemini 2.5 Flash: darmowy tier (hojny). Limit pytań: front pokazuje licznik, a Worker z KV (`PB_KV`) egzekwuje twardo X/dzień na IP.
+
+## Tryb właściciela (Ty bez limitu, reszta z limitem)
+1. W Cloudflare (Worker → Settings → Variables) dodaj **Secret** `DEV_KEY` = dowolny wymyślony ciąg (np. `mojtajnyklucz123`). To NIE jest klucz API — to Twoje hasło-obejście.
+2. Na swojej przeglądarce wejdź **raz** pod adres z parametrem:
+   `https://backloghero-lang.github.io/bunkhouse-trainer/?pbdev=mojtajnyklucz123`
+   (zamień na swój DEV_KEY). Front zapisze go w localStorage i od tej pory na tej przeglądarce masz **bez limitu** (licznik znika).
+3. Goście bez tego klucza dalej mają limit (DAILY_LIMIT, domyślnie 5/dzień na IP — wymaga bindingu KV).
+- Wyłączyć u siebie: w konsoli przeglądarki `localStorage.removeItem('pb_dev')`.
+
+## Pamięć rozmowy
+Agent pamięta wątek między podstronami w obrębie przeglądarki (historia w localStorage `pb_convo`, wysyłana do Workera jako kontekst). Wyczyścić: `localStorage.removeItem('pb_convo')`.
