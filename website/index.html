@@ -327,15 +327,21 @@
 #pbPoke{position:absolute;right:74px;bottom:8px;max-width:230px;background:#0c1830;border:1px solid rgba(216,182,90,.5);color:#ece7d2;padding:11px 13px;border-radius:14px 14px 4px 14px;font-size:13px;line-height:1.45;box-shadow:0 10px 28px rgba(0,0,0,.5);display:none;cursor:pointer}
 #pbPoke.show{display:block;animation:pbpop .3s ease}
 @keyframes pbpop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-#pbPanel{position:absolute;right:0;bottom:74px;width:330px;max-width:calc(100vw - 32px);height:470px;max-height:calc(100vh - 120px);background:linear-gradient(160deg,#0c1830,#070f1e);border:1px solid rgba(216,182,90,.35);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden}
+#pbPanel{position:absolute;right:0;bottom:74px;width:330px;max-width:calc(100vw - 32px);height:490px;max-height:calc(100vh - 120px);background:linear-gradient(160deg,#0c1830,#070f1e);border:1px solid rgba(216,182,90,.35);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden}
 #pbPanel.pb-hidden{display:none}
 .pb-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid rgba(216,182,90,.18);background:rgba(3,7,15,.4)}
 .pb-head .pb-ava{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#0e1830;border:1px solid rgba(216,182,90,.4);font-size:18px;flex:none}
 .pb-head b{display:block;color:#f3dd97;font-size:14px;font-family:'Cinzel',Georgia,serif}
 .pb-head span{display:block;color:#7d8ca6;font-size:10px;line-height:1.35}
 .pb-head button{margin-left:auto;background:none;border:none;color:#7d8ca6;font-size:22px;cursor:pointer;line-height:1;flex:none}
+.pb-credits{display:flex;align-items:center;gap:6px;padding:6px 14px;font-size:11px;color:#7d8ca6;border-bottom:1px solid rgba(216,182,90,.12)}
+.pb-credits b{color:#f3dd97}
+.pb-info{position:relative;cursor:pointer;width:16px;height:16px;border-radius:50%;border:1px solid rgba(216,182,90,.55);color:#f3dd97;display:none;align-items:center;justify-content:center;font-size:10px;font-style:italic;font-weight:700}
+.pb-credits.lim .pb-info{display:inline-flex}
+.pb-toast{position:absolute;bottom:135%;right:-4px;white-space:nowrap;background:#0c1830;border:1px solid rgba(216,182,90,.5);color:#ece7d2;font-size:11px;font-style:normal;padding:6px 9px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.5);display:none;z-index:6}
+.pb-info:hover .pb-toast{display:block}
 #pbMsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.pb-m{max-width:86%;padding:9px 12px;border-radius:13px;font-size:13px;line-height:1.5}
+.pb-m{max-width:86%;padding:9px 12px;border-radius:13px;font-size:13px;line-height:1.5;white-space:pre-wrap}
 .pb-m a{color:#f3dd97;font-weight:600}
 .pb-bot{align-self:flex-start;background:rgba(125,140,166,.14);color:#dfe4ec;border-bottom-left-radius:4px}
 .pb-user{align-self:flex-end;background:linear-gradient(180deg,#f3dd97,#d8b65a);color:#1a1206;border-bottom-right-radius:4px;font-weight:500}
@@ -344,85 +350,76 @@
 .pb-quick button:hover{border-color:#f3dd97;color:#fff}
 .pb-input{display:flex;gap:8px;padding:10px 12px;border-top:1px solid rgba(216,182,90,.18)}
 .pb-input input{flex:1;background:rgba(3,7,15,.6);border:1px solid rgba(216,182,90,.25);border-radius:10px;color:#ece7d2;padding:9px 12px;font-size:13px;cursor:text!important}
+.pb-input input:disabled{opacity:.55}
 .pb-input button{background:#d8b65a;border:none;color:#1a1206;border-radius:10px;width:40px;cursor:pointer;font-size:14px}
-@media(max-width:520px){#pbPanel{width:calc(100vw - 32px);height:70vh}}
+@media(max-width:520px){#pbPanel{width:calc(100vw - 32px);height:72vh}}
 </style>
 <div id="pbWrap">
   <div id="pbPanel" class="pb-hidden" role="dialog" aria-label="Poker buddy">
     <div class="pb-head"><span class="pb-ava">&#127183;</span><div><b id="pbName">Ziomek od Pokera</b><span id="pbSub"></span></div><button id="pbX" aria-label="x">&times;</button></div>
+    <div class="pb-credits" id="pbCredits"><span id="pbCrLabel">Pytania</span>:&nbsp;<b id="pbCnt">5</b>/5<span class="pb-info" id="pbInfo">i<span class="pb-toast" id="pbToast"></span></span></div>
     <div id="pbMsgs"></div>
-    <div class="pb-quick">
-      <button data-t="help"></button><button data-t="icm"></button><button data-t="charts"></button><button data-t="legend"></button><button data-t="analyzer"></button>
-    </div>
+    <div class="pb-quick"><button data-t="help"></button><button data-t="icm"></button><button data-t="charts"></button><button data-t="legend"></button><button data-t="analyzer"></button></div>
     <div class="pb-input"><input id="pbIn" autocomplete="off"><button id="pbSend" aria-label="send">&#9654;</button></div>
   </div>
   <button id="pbLauncher" aria-label="chat"><span>&#127183;</span><span class="pb-dot"></span></button>
   <div id="pbPoke"></div>
 </div>
 <script id="pbJs">(function(){
+// === KONFIG: wklej URL swojego Cloudflare Workera, np. 'https://pokerhouse-agent.xxx.workers.dev' ===
+var PB_API='https://pokerhouse-agent.darekmaslyk.workers.dev';
+var PB_LIMIT=5;
 var BD={
- pl:{name:'Ziomek od Pokera',sub:'gada o pokerze 😎 · czasem zwany synem koleżanki twojej starej',
-  ph:'Napisz coś...',poke:'Siema ziomuś, chcesz pogadać o pokerze? 🂡',
+ pl:{name:'Ziomek od Pokera',sub:'gada o pokerze 😎 · czasem zwany synem koleżanki twojej starej',ph:'Napisz coś...',poke:'Siema ziomuś, chcesz pogadać o pokerze? 🂡',
+  crLabel:'Pytania',limitPh:'Limit demo osiągnięty',toast:'Limit pytań w wersji demo',demo:'To tylko demo 🂡 Agent ma ograniczoną liczbę pytań na dziś. Pełna wersja wkrótce — wpadnij jutro, ziom!',
   greet:'Siema ziomuś 🂡 Chcesz pogadać o pokerze? Mam Trenera ICM, tabele push/fold, legendy i analizę rąk. Pytaj śmiało!',
   q:{help:'Co to za strona?',icm:'Trener ICM',charts:'Tabele',legend:'Legendy',analyzer:'Analiza rąk'},
   hi:['Siema ziom! Gadamy o pokerze czy o stronie? 😎','Elo mordo! Push/fold czy legendy?'],
-  help:'Tu masz wszystko o turniejowym pokerze: <a href="icm-trainer.html">Trener ICM</a>, <a href="charts.html">Tabele</a>, <a href="legendary-hands.html">Legendarne rozdania</a>, <a href="wall-of-fame.html">Galeria Sław</a>, <a href="learn.html">Nauka</a> i <a href="analyzer.html">Hand Analyzer</a>. Pytaj o cokolwiek 🂡',
-  icm:'Trener ICM to serce strony, ziom. Klikasz pozycję, ustawiasz BB i widzisz zakres push/fold. <a href="icm-trainer.html">Otwórz trenera →</a>',
-  charts:'Tabele push/fold? Klikasz miejsce przy 9-osobowym stole, suwasz BB i masz zakres. <a href="charts.html">Charts →</a>',
-  legend:'Legendarne rozdania — Moneymaker, Dwan, Ivey, Brunson... <a href="legendary-hands.html">Zobacz →</a>',
-  fame:'Galeria Sław — kultowe postacie i momenty. <a href="wall-of-fame.html">Wejdź →</a>',
-  learn:'Nauka = linki do najlepszych szkół (GTO Wizard, Upswing...). <a href="learn.html">Ucz się →</a>',
-  analyzer:'Wklejasz historię rozdania (PokerStars/GGPoker), a ja mówię czy push/fold był ok. <a href="analyzer.html">Sprawdź rękę →</a>',
-  bankroll:'W trenerze masz wykres bankrolla w czasie. Tylko nie płacz jak na czerwono 😅',
-  poker:['O, ktoś tu lubi poker! Ćwiczymy zakresy czy oglądamy legendy?','Poker to mój żywioł ziom. Co robimy?'],
-  who:'Jestem twój pokerowy ziomek z tej strony 🂡 Gadam o pokerze i o tym co tu znajdziesz. O reszcie — sorka.',
-  thanks:['Spoko ziom, graj mądrze 😎','Trzymaj się, na bańce foldujemy śmieci!'],
-  off:['Ej no weź ziom 😏 ja tu gadam tylko o pokerze i o tej stronie.','Tu rządzi poker. Push czy fold?','Spoko temat, ale nie mój. Pytaj o <a href="icm-trainer.html">Trenera ICM</a> 🂡','Mordo, ja jestem od kart. Pogadajmy o pokerze!']},
- en:{name:'Your Poker Bro',sub:'talks only poker 😎 · aka your mom’s friend’s son',
-  ph:'Type something...',poke:'Yo, wanna talk some poker? 🂡',
+  help:'Tu masz wszystko o turniejowym pokerze: <a href="icm-trainer.html">Trener ICM</a>, <a href="charts.html">Tabele</a>, <a href="legendary-hands.html">Legendarne rozdania</a>, <a href="wall-of-fame.html">Galeria Sław</a>, <a href="learn.html">Nauka</a> i <a href="analyzer.html">Hand Analyzer</a>. 🂡',
+  icm:'Trener ICM to serce strony, ziom. <a href="icm-trainer.html">Otwórz trenera →</a>',charts:'Klikasz miejsce przy 9-osobowym stole, suwasz BB i masz zakres. <a href="charts.html">Charts →</a>',
+  legend:'Legendarne rozdania — Moneymaker, Dwan, Ivey, Brunson... <a href="legendary-hands.html">Zobacz →</a>',fame:'Galeria Sław — kultowe momenty. <a href="wall-of-fame.html">Wejdź →</a>',
+  learn:'Linki do najlepszych szkół. <a href="learn.html">Ucz się →</a>',analyzer:'Wklejasz historię (PokerStars/GGPoker), mówię czy push/fold ok. <a href="analyzer.html">Sprawdź rękę →</a>',
+  bankroll:'W trenerze masz wykres bankrolla. Nie płacz jak na czerwono 😅',poker:['Ktoś tu lubi poker! Ćwiczymy zakresy czy oglądamy legendy?','Poker to mój żywioł ziom.'],
+  who:'Jestem twój pokerowy ziomek z tej strony 🂡 Gadam o pokerze i o tym co tu jest. O reszcie — sorka.',thanks:['Spoko ziom, graj mądrze 😎','Na bańce foldujemy śmieci!'],
+  off:['Ej no weź ziom 😏 ja gadam tylko o pokerze i o tej stronie.','Tu rządzi poker. Push czy fold?','Nie mój temat. Pytaj o <a href="icm-trainer.html">Trenera ICM</a> 🂡','Mordo, ja jestem od kart. Pogadajmy o pokerze!']},
+ en:{name:'Your Poker Bro',sub:'talks only poker 😎 · aka your mom’s friend’s son',ph:'Type something...',poke:'Yo, wanna talk some poker? 🂡',
+  crLabel:'Questions',limitPh:'Demo limit reached',toast:'Question limit in this demo',demo:'It’s just a demo 🂡 The agent has limited questions per day. Full version soon — come back tomorrow!',
   greet:'Yo bro 🂡 Wanna talk poker? I’ve got the ICM Trainer, push/fold charts, legendary hands and hand analysis. Fire away!',
   q:{help:'What’s this?',icm:'ICM Trainer',charts:'Charts',legend:'Legends',analyzer:'Hand analysis'},
   hi:['Yo! Poker or the site — your call 😎','Hey! Push/fold or legends?'],
-  help:'Everything tournament poker here: <a href="icm-trainer.html">ICM Trainer</a>, <a href="charts.html">Charts</a>, <a href="legendary-hands.html">Legendary Hands</a>, <a href="wall-of-fame.html">Wall of Fame</a>, <a href="learn.html">Learn</a> and the <a href="analyzer.html">Hand Analyzer</a>. Ask away 🂡',
-  icm:'The ICM Trainer is the heart of the site. Pick a seat, set the BB and see the push/fold range. <a href="icm-trainer.html">Open it →</a>',
-  charts:'Push/fold charts? Click a seat at the 9-max table, slide the BB and there’s your range. <a href="charts.html">Charts →</a>',
-  legend:'Legendary hands — Moneymaker, Dwan, Ivey, Brunson... <a href="legendary-hands.html">Watch →</a>',
-  fame:'Wall of Fame — iconic names and moments. <a href="wall-of-fame.html">Enter →</a>',
-  learn:'Learn = links to the best poker schools (GTO Wizard, Upswing...). <a href="learn.html">Learn →</a>',
-  analyzer:'Paste a hand history (PokerStars/GGPoker) and I’ll tell you if the push/fold was right. <a href="analyzer.html">Check a hand →</a>',
-  bankroll:'The trainer has a bankroll chart over time. Just don’t cry when it’s red 😅',
-  poker:['Oh, a poker fan! Drilling ranges or watching legends?','Poker’s my thing. What’s the move?'],
-  who:'I’m your poker buddy from this site 🂡 I talk poker and what’s here. Anything else — not my lane.',
-  thanks:['Cheers bro, play smart 😎','Take care — on the bubble we fold the trash!'],
-  off:['C’mon bro 😏 I only talk poker and this site.','Poker rules here. Push or fold?','Cool topic, just not mine. Ask about the <a href="icm-trainer.html">ICM Trainer</a> 🂡','I’m all about the cards. Let’s talk poker!']},
- es:{name:'Tu Colega del Póker',sub:'solo habla de póker 😎 · alias el hijo de la amiga de tu vieja',
-  ph:'Escribe algo...',poke:'¡Ey! ¿Hablamos de póker? 🂡',
+  help:'Everything tournament poker: <a href="icm-trainer.html">ICM Trainer</a>, <a href="charts.html">Charts</a>, <a href="legendary-hands.html">Legendary Hands</a>, <a href="wall-of-fame.html">Wall of Fame</a>, <a href="learn.html">Learn</a> and the <a href="analyzer.html">Hand Analyzer</a>. 🂡',
+  icm:'The ICM Trainer is the heart of the site. <a href="icm-trainer.html">Open it →</a>',charts:'Click a seat at the 9-max table, slide the BB, get your range. <a href="charts.html">Charts →</a>',
+  legend:'Legendary hands — Moneymaker, Dwan, Ivey, Brunson... <a href="legendary-hands.html">Watch →</a>',fame:'Wall of Fame — iconic moments. <a href="wall-of-fame.html">Enter →</a>',
+  learn:'Links to the best poker schools. <a href="learn.html">Learn →</a>',analyzer:'Paste a hand history (PokerStars/GGPoker), I’ll grade the push/fold. <a href="analyzer.html">Check a hand →</a>',
+  bankroll:'The trainer has a bankroll chart. Don’t cry when it’s red 😅',poker:['A poker fan! Drilling ranges or watching legends?','Poker’s my thing.'],
+  who:'I’m your poker buddy from this site 🂡 I talk poker and what’s here. Anything else — not my lane.',thanks:['Cheers bro, play smart 😎','On the bubble we fold the trash!'],
+  off:['C’mon bro 😏 I only talk poker and this site.','Poker rules here. Push or fold?','Not my topic. Ask about the <a href="icm-trainer.html">ICM Trainer</a> 🂡','I’m all about the cards. Let’s talk poker!']},
+ es:{name:'Tu Colega del Póker',sub:'solo habla de póker 😎 · alias el hijo de la amiga de tu vieja',ph:'Escribe algo...',poke:'¡Ey! ¿Hablamos de póker? 🂡',
+  crLabel:'Preguntas',limitPh:'Límite demo alcanzado',toast:'Límite de preguntas en la demo',demo:'¡Es solo una demo! 🂡 El agente tiene preguntas limitadas por día. Versión completa pronto.',
   greet:'¡Ey bro! 🂡 ¿Hablamos de póker? Tengo el Entrenador ICM, tablas push/fold, manos legendarias y análisis de manos. ¡Dispara!',
   q:{help:'¿Qué es esto?',icm:'Entrenador ICM',charts:'Tablas',legend:'Leyendas',analyzer:'Análisis'},
   hi:['¡Ey! ¿Póker o la web? Tú decides 😎','¡Hola! ¿Push/fold o leyendas?'],
-  help:'Aquí todo es póker de torneo: <a href="icm-trainer.html">Entrenador ICM</a>, <a href="charts.html">Tablas</a>, <a href="legendary-hands.html">Manos legendarias</a>, <a href="wall-of-fame.html">Salón de la Fama</a>, <a href="learn.html">Aprende</a> y el <a href="analyzer.html">Analizador de manos</a>. Pregunta 🂡',
-  icm:'El Entrenador ICM es el corazón de la web. Elige asiento, fija las BB y ve el rango push/fold. <a href="icm-trainer.html">Ábrelo →</a>',
-  charts:'¿Tablas push/fold? Pulsa un asiento en la mesa de 9, desliza las BB y ahí está tu rango. <a href="charts.html">Tablas →</a>',
-  legend:'Manos legendarias — Moneymaker, Dwan, Ivey, Brunson... <a href="legendary-hands.html">Ver →</a>',
-  fame:'Salón de la Fama — nombres y momentos icónicos. <a href="wall-of-fame.html">Entrar →</a>',
-  learn:'Aprende = enlaces a las mejores escuelas (GTO Wizard, Upswing...). <a href="learn.html">Aprende →</a>',
-  analyzer:'Pega un historial de mano (PokerStars/GGPoker) y te digo si el push/fold fue correcto. <a href="analyzer.html">Revisar →</a>',
-  bankroll:'El entrenador tiene un gráfico de bankroll en el tiempo. No llores si está en rojo 😅',
-  poker:['¡Un fan del póker! ¿Practicamos rangos o vemos leyendas?','El póker es lo mío. ¿Qué hacemos?'],
-  who:'Soy tu colega del póker de esta web 🂡 Hablo de póker y de lo que hay aquí. De lo demás — ni idea.',
-  thanks:['¡Cuídate bro, juega listo 😎','¡En la burbuja foldeamos la basura!'],
-  off:['Venga bro 😏 solo hablo de póker y de esta web.','Aquí manda el póker. ¿Push o fold?','Buen tema, pero no el mío. Pregunta por el <a href="icm-trainer.html">Entrenador ICM</a> 🂡','Lo mío son las cartas. ¡Hablemos de póker!']}
+  help:'Todo es póker de torneo: <a href="icm-trainer.html">Entrenador ICM</a>, <a href="charts.html">Tablas</a>, <a href="legendary-hands.html">Manos legendarias</a>, <a href="wall-of-fame.html">Salón de la Fama</a>, <a href="learn.html">Aprende</a> y el <a href="analyzer.html">Analizador</a>. 🂡',
+  icm:'El Entrenador ICM es el corazón de la web. <a href="icm-trainer.html">Ábrelo →</a>',charts:'Pulsa un asiento en la mesa de 9, desliza las BB, ahí está tu rango. <a href="charts.html">Tablas →</a>',
+  legend:'Manos legendarias — Moneymaker, Dwan, Ivey, Brunson... <a href="legendary-hands.html">Ver →</a>',fame:'Salón de la Fama — momentos icónicos. <a href="wall-of-fame.html">Entrar →</a>',
+  learn:'Enlaces a las mejores escuelas. <a href="learn.html">Aprende →</a>',analyzer:'Pega un historial (PokerStars/GGPoker) y te digo si el push/fold fue correcto. <a href="analyzer.html">Revisar →</a>',
+  bankroll:'El entrenador tiene gráfico de bankroll. No llores si está en rojo 😅',poker:['¡Un fan del póker! ¿Rangos o leyendas?','El póker es lo mío.'],
+  who:'Soy tu colega del póker de esta web 🂡 Hablo de póker y de lo que hay aquí.',thanks:['¡Cuídate bro, juega listo 😎','¡En la burbuja foldeamos la basura!'],
+  off:['Venga bro 😏 solo hablo de póker y de esta web.','Aquí manda el póker. ¿Push o fold?','No es mi tema. Pregunta por el <a href="icm-trainer.html">Entrenador ICM</a> 🂡','Lo mío son las cartas. ¡Hablemos de póker!']}
 };
 var panel=document.getElementById('pbPanel'),msgs=document.getElementById('pbMsgs'),inp=document.getElementById('pbIn'),
     launch=document.getElementById('pbLauncher'),poke=document.getElementById('pbPoke');
-function L(){var l=document.documentElement.lang;if(BD[l])return l;try{l=localStorage.getItem('bh_lang');}catch(e){}return BD[l]?l:'en';}
+function Lg(){var l=document.documentElement.lang;if(BD[l])return l;try{l=localStorage.getItem('bh_lang');}catch(e){}return BD[l]?l:'en';}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
-function R(topic){var r=BD[L()][topic]||BD.en[topic];return Array.isArray(r)?pick(r):r;}
-function applyLang(){var d=BD[L()];document.getElementById('pbName').textContent=d.name;document.getElementById('pbSub').innerHTML=d.sub;inp.placeholder=d.ph;
- var qb=panel.querySelectorAll('.pb-quick button');for(var i=0;i<qb.length;i++){qb[i].textContent=d.q[qb[i].getAttribute('data-t')];}}
-function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-function add(html,who){var d=document.createElement('div');d.className='pb-m '+(who==='user'?'pb-user':'pb-bot');if(who==='user')d.textContent=html;else d.innerHTML=html;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
-function open(){applyLang();panel.classList.remove('pb-hidden');launch.classList.remove('has');poke.classList.remove('show');if(!msgs.children.length)add(R('greet'),'bot');inp.focus();}
+function Rt(topic){var r=BD[Lg()][topic]||BD.en[topic];return Array.isArray(r)?pick(r):r;}
+function dayKey(){return 'pb_used_'+new Date().toISOString().slice(0,10);}
+function used(){try{return parseInt(localStorage.getItem(dayKey())||'0',10)||0;}catch(e){return 0;}}
+function setUsed(n){try{localStorage.setItem(dayKey(),String(n));}catch(e){}}
+function remaining(){return Math.max(0,PB_LIMIT-used());}
+function add(content,who,html){var d=document.createElement('div');d.className='pb-m '+(who==='user'?'pb-user':'pb-bot');if(who==='bot'&&html)d.innerHTML=content;else d.textContent=content;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
+function credits(){var d=BD[Lg()],rem=remaining();document.getElementById('pbCnt').textContent=rem;document.getElementById('pbCrLabel').textContent=d.crLabel;document.getElementById('pbToast').textContent=d.toast;var cr=document.getElementById('pbCredits');if(rem<=0){cr.classList.add('lim');inp.disabled=true;inp.placeholder=d.limitPh;}else{cr.classList.remove('lim');inp.disabled=false;inp.placeholder=d.ph;}}
+function applyLang(){var d=BD[Lg()];document.getElementById('pbName').textContent=d.name;document.getElementById('pbSub').innerHTML=d.sub;var qb=panel.querySelectorAll('.pb-quick button');for(var i=0;i<qb.length;i++){qb[i].textContent=d.q[qb[i].getAttribute('data-t')];}credits();}
+function open(){applyLang();panel.classList.remove('pb-hidden');launch.classList.remove('has');poke.classList.remove('show');if(!msgs.children.length)add(Rt('greet'),'bot',true);if(!inp.disabled)inp.focus();}
 function close(){panel.classList.add('pb-hidden');}
 function topicOf(raw){var t=(raw||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ł/g,'l');
  function a(){for(var i=0;i<arguments.length;i++)if(t.indexOf(arguments[i])>=0)return true;return false;}
@@ -430,25 +427,34 @@ function topicOf(raw){var t=(raw||'').toLowerCase().normalize('NFD').replace(/[�
  if(a('co to','strona','o czym','pomoc','help','funkcj','what','this site',' web','que es','ayuda','about'))return 'help';
  if(a('icm','trener','trainer','entrenador','zakres','push','fold','range','rango','jam','shove'))return 'icm';
  if(a('tabel','chart','tabla','stol','mesa','9-max','9 os','pozycj','position','posicion'))return 'charts';
- if(a('legend','rozdani','mano','leyenda','film','video','youtube','moneymaker','ivey','dwan','brunson','rounders'))return 'legend';
+ if(a('legend','rozdani','mano','leyenda','film','video','moneymaker','ivey','dwan','brunson','rounders'))return 'legend';
  if(a('slaw','fame','fama','galeria','gallery','strauss','scotty'))return 'fame';
- if(a('nauk','learn','aprend','szkol','school','escuela','strateg','strategy','estrategia','gto wizard','upswing','kurs','course','curso'))return 'learn';
- if(a('analiz','analy','histor','history','historial','ggpoker','pokerstars','blad','mistake','error','sprawdz','check','revisa'))return 'analyzer';
- if(a('bankroll','wykres','grafico','kasa','wygran','bilans','money','dinero'))return 'bankroll';
- if(a('poker','poker','blef','bluff','farol','all-in','allin','turniej','tournament','torneo',' aa','kareta','flush','river','flop','preflop'))return 'poker';
+ if(a('nauk','learn','aprend','szkol','school','escuela','strateg','strategy','gto wizard','upswing','kurs','course'))return 'learn';
+ if(a('analiz','analy','histor','history','ggpoker','pokerstars','blad','mistake','sprawdz','check','revisa'))return 'analyzer';
+ if(a('bankroll','wykres','grafico','kasa','wygran','money','dinero'))return 'bankroll';
+ if(a('poker','blef','bluff','farol','all-in','allin','turniej','tournament','torneo',' aa','flush','river','flop'))return 'poker';
  if(a('kto','jestes','bot','agent','imie','nazywasz','who are','quien','your name','kolezanki'))return 'who';
  if(a('dziek','thank','gracias','spoko','nara','bye','adios','git'))return 'thanks';
  return 'off';}
-function send(v){v=(v||'').trim();if(!v)return;add(v,'user');inp.value='';setTimeout(function(){add(R(topicOf(v)),'bot');},350);}
+function scripted(v){return Rt(topicOf(v));}
+function ask(v){v=(v||'').trim();if(!v)return;if(remaining()<=0){credits();return;}
+ add(v,'user');inp.value='';
+ function done(html,raw){add(html,'bot',raw!==false);setUsed(used()+1);credits();}
+ if(PB_API){fetch(PB_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:v,lang:Lg()})})
+   .then(function(r){return r.json();})
+   .then(function(d){if(d&&d.limited){setUsed(PB_LIMIT);credits();add(BD[Lg()].demo,'bot',false);return;}if(d&&d.reply){done(d.reply,false);}else{done(scripted(v),true);}})
+   .catch(function(){done(scripted(v),true);});
+ }else{setTimeout(function(){done(scripted(v),true);},350);}
+}
 launch.onclick=function(){panel.classList.contains('pb-hidden')?open():close();};
 poke.onclick=open;document.getElementById('pbX').onclick=close;
-document.getElementById('pbSend').onclick=function(){send(inp.value);};
-inp.addEventListener('keydown',function(e){if(e.key==='Enter')send(inp.value);});
-var qb=panel.querySelectorAll('.pb-quick button');for(var i=0;i<qb.length;i++)(function(b){b.onclick=function(){if(panel.classList.contains('pb-hidden')){applyLang();panel.classList.remove('pb-hidden');}var tp=b.getAttribute('data-t');add(b.textContent,'user');setTimeout(function(){add(R(tp),'bot');},300);};})(qb[i]);
-// reaguj na zmiane jezyka na zywo
+document.getElementById('pbSend').onclick=function(){ask(inp.value);};
+inp.addEventListener('keydown',function(e){if(e.key==='Enter')ask(inp.value);});
+document.getElementById('pbInfo').onclick=function(){if(panel.classList.contains('pb-hidden'))open();add(BD[Lg()].demo,'bot',false);};
+var qb=panel.querySelectorAll('.pb-quick button');for(var i=0;i<qb.length;i++)(function(b){b.onclick=function(){if(panel.classList.contains('pb-hidden')){applyLang();panel.classList.remove('pb-hidden');}var tp=b.getAttribute('data-t');add(b.textContent,'user');setTimeout(function(){add(Rt(tp),'bot',true);},300);};})(qb[i]);
 document.querySelectorAll('.lang button,[data-l]').forEach(function(b){b.addEventListener('click',function(){setTimeout(applyLang,60);});});
 applyLang();
-try{if(!sessionStorage.getItem('pb_poked')){setTimeout(function(){if(panel.classList.contains('pb-hidden')){poke.innerHTML=R('poke');poke.classList.add('show');launch.classList.add('has');sessionStorage.setItem('pb_poked','1');setTimeout(function(){poke.classList.remove('show');},9000);}},30000);}}catch(e){}
+try{if(!sessionStorage.getItem('pb_poked')){setTimeout(function(){if(panel.classList.contains('pb-hidden')){poke.innerHTML=Rt('poke');poke.classList.add('show');launch.classList.add('has');sessionStorage.setItem('pb_poked','1');setTimeout(function(){poke.classList.remove('show');},9000);}},30000);}}catch(e){}
 })();</script>
 </body>
 </html>
