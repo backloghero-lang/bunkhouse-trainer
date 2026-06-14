@@ -1,25 +1,31 @@
-# Ziomek od Pokera — agent (backend)
+# Ziomek od Pokera — agent (Gemini + Cloudflare Worker)
 
-Bezpieczny backend dla czatu na stronie. **Klucz API NIGDY nie trafia do repo ani do przeglądarki** — siedzi jako *secret* w Cloudflare.
+Bezpieczny backend czatu. **Żaden klucz nie jest w repo** — siedzi jako *secret* w Cloudflare.
+**Prompt edytujesz w pliku `agent/prompt.txt`** w repo: zmieniasz osobowość/zachowanie, commitujesz, a Worker sam zaciąga nową wersję (cache ~60 s).
 
-## Wdrożenie przez panel Cloudflare (bez instalowania niczego)
+## 1) Darmowy klucz Gemini (Google AI Studio)
+1. Wejdź na **aistudio.google.com** → zaloguj kontem Google.
+2. **Get API key** → **Create API key** → skopiuj klucz (`AIza...`).
+3. NIE wklejaj go nigdzie poza Cloudflare (krok 3).
 
-1. Załóż darmowe konto na **cloudflare.com** → wejdź w **Workers & Pages** → **Create application** → **Create Worker** → nadaj nazwę (np. `pokerhouse-agent`) → **Deploy**.
-2. **Edit code** → wklej całą zawartość `worker.js` z tego folderu → **Deploy**.
-3. **Settings → Variables and Secrets**:
-   - Dodaj **Secret** o nazwie `ANTHROPIC_API_KEY` i wartości = Twój klucz z konsoli Anthropic (zaszyfrowany, nie pokaże się w repo).
-   - Dodaj zwykłą zmienną `ALLOW_ORIGIN` = adres Twojej strony, np. `https://backloghero-lang.github.io` (chroni przed wołaniem z obcych stron).
-   - (opcjonalnie) `DAILY_LIMIT` = `5`.
-4. (opcjonalnie, ale zalecane — twardy limit po IP) **Workers & Pages → KV → Create namespace** (np. `pb_limits`). Potem w Workerze **Settings → Bindings → Add → KV namespace**, nazwa zmiennej **`PB_KV`**, wskaż utworzony namespace.
-5. Skopiuj adres Workera (coś jak `https://pokerhouse-agent.twojanazwa.workers.dev`).
-6. W stronie wklej ten adres do stałej `PB_API` (jest na górze skryptu bota na każdej stronie) i wypchnij stronę na GitHub.
+## 2) Wgraj nowy kod Workera
+- Otwórz swojego Workera `pokerhouse-agent` → **Edit code** → zaznacz wszystko, skasuj, wklej całe `worker.js` z tego folderu → **Deploy**.
 
-Gotowe — czat woła Twój Worker, Worker woła Anthropic swoim ukrytym kluczem.
+## 3) Zmienne i secret (Worker → Settings → Variables and Secrets)
+- **Secret** `GEMINI_API_KEY` = Twój klucz `AIza...`
+- (zostaw lub usuń stary `ANTHROPIC_API_KEY` — już nieużywany)
+- **Text** `ALLOW_ORIGIN` = `https://backloghero-lang.github.io`
+- (opcjonalne, Text — masz nad tym pełną kontrolę bez ruszania kodu):
+  - `MODEL` = `gemini-2.5-flash`
+  - `TEMPERATURE` = `0.85`  (wyżej = bardziej kreatywny/losowy)
+  - `MAX_TOKENS` = `320`   (długość odpowiedzi)
+  - `THINKING_BUDGET` = `512`  (budżet myślenia; `0` = bez myślenia/szybciej)
+  - `PROMPT_URL` = własny adres pliku z promptem (domyślnie bierze `agent/prompt.txt` z repo)
+- Kliknij Deploy/Save jeśli trzeba.
 
-## Limity i koszt
-- Model: `claude-haiku-4-5` (najtańszy), `max_tokens: 300` → jedno pytanie to ułamek centa.
-- Limit pytań: front pokazuje licznik (5), a Worker z KV egzekwuje twardo 5/dzień na IP. Bez KV limit pilnuje tylko front (łatwiej obejść — wtedy ustaw niski `DAILY_LIMIT` i obserwuj zużycie w panelu Anthropic).
-- System prompt wymusza: tylko poker + ta strona, charakter „ziomka", odpowiedź w języku strony.
+## 4) Edycja promptu (osobowość agenta)
+- Otwórz `agent/prompt.txt`, zmień osobowość/zasady, **zachowaj `{{LANG}}`** (Worker podstawia tam język strony).
+- Commit + push (np. `WYSLIJ-NA-GITHUB.bat`). Po max ~60 s Worker gada wg nowego promptu. Zero ruszania Cloudflare.
 
-## Alternatywa: Vercel/Netlify
-Ten sam `worker.js` da się przepisać na funkcję `/api/chat` (Node) — daj znać, dorzucę wersję.
+## Koszt / limit
+- Gemini 2.5 Flash: darmowy tier (hojny). Limit pytań: front pokazuje licznik, a Worker z KV (`PB_KV`) egzekwuje twardo X/dzień na IP.
