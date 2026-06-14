@@ -49,7 +49,7 @@ export default {
 
     const system = (await getPrompt(env)).replace(/\{\{\s*LANG\s*\}\}/g, langName(lang));
     const model = env.MODEL || "gemini-2.5-flash";
-    const genCfg = { temperature: parseFloat(env.TEMPERATURE || "0.85"), maxOutputTokens: parseInt(env.MAX_TOKENS || "400", 10), thinkingConfig: { thinkingBudget: parseInt(env.THINKING_BUDGET || "512", 10) } };
+    const genCfg = { temperature: parseFloat(env.TEMPERATURE || "0.85"), maxOutputTokens: parseInt(env.MAX_TOKENS || "700", 10), thinkingConfig: { thinkingBudget: parseInt(env.THINKING_BUDGET || "0", 10) } };
     const url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + env.GEMINI_API_KEY;
 
     let r; try {
