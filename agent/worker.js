@@ -38,7 +38,7 @@ export default {
     let used = 0;
     if (!owner && env.PB_KV){
       used = parseInt((await env.PB_KV.get(key)) || "0", 10);
-      if (used >= LIMIT) return J({ reply:null, limited:true, remaining:0 }, 200, cors);
+      if (used >= LIMIT) return J({ reply:null, limited:true, remaining:0, limit:LIMIT }, 200, cors);
     }
 
     // Historia rozmowy (pamiec watku) -> contents
@@ -64,6 +64,6 @@ export default {
 
     let remaining = null;
     if (!owner && env.PB_KV){ await env.PB_KV.put(key, String(used+1), { expirationTtl:3700 }); remaining = Math.max(0, LIMIT-(used+1)); }
-    return J({ reply: reply, remaining: remaining, owner: owner }, 200, cors);
+    return J({ reply: reply, remaining: remaining, owner: owner, limit: (env.PB_KV ? LIMIT : null) }, 200, cors);
   }
 }
