@@ -295,7 +295,7 @@
   // chip cursor
   var chip = document.getElementById('chip-cursor');
   if(fine && chip){
-    document.body.classList.add('chip-on');
+    chip.style.display='none';
     var x=0,y=0;
     window.addEventListener('mousemove',function(e){ x=e.clientX; y=e.clientY; chip.style.transform='translate('+(x-17)+'px,'+(y-17)+'px)'; });
     // hot state over interactive
@@ -304,10 +304,10 @@
       chip.classList.toggle('hot', !!hot);
     });
     // click = flip (everywhere); interactive elements keep their default action
-    window.addEventListener('click',function(){
-      chip.classList.remove('flip'); void chip.offsetWidth; chip.classList.add('flip');
+    window.addEventListener('mousedown',function(e){
+      chip.style.transform='translate('+(e.clientX-17)+'px,'+(e.clientY-17)+'px)';chip.style.display='';chip.classList.remove('flip'); void chip.offsetWidth; chip.classList.add('flip');
     });
-    chip.querySelector('.spinner').addEventListener('animationend',function(){ chip.classList.remove('flip'); });
+    chip.querySelector('.spinner').addEventListener('animationend',function(){ chip.classList.remove('flip'); chip.style.display='none'; });
   } else if(chip){ chip.remove(); }
 })();
 </script>
